@@ -27,7 +27,7 @@ The raw sequence data from both snRNA-seq and snATAC-seq, as well as the human s
 Recent progress in ALS genetics and the discovery of new ALS genes presents an opportunity to generate novel models to explore the pathogenesis of the disease and identify therapeutic targets shared between distinct forms of ALS. Here, we identified PCDHA9 as a candidate ALS gene because its targeted mutation and deletion in mice recapitulate most of the neuropathological and clinical phenotypes of ALS.
 our orthologous point mutation mouse model based on the recurrent mutation found in ALS patients accurately recapitulated most neuropathological and clinical phenotypes of ALS. The late disease onset and progressive phenotypes make the PCDHA9 mutant new ALS-relevant physiological systems to explore disease mechanisms including the early onset of ALS, and to test potential therapeutics. Combined with multi-omics analysis, we identified the disturbed gene regulatory networks and signaling involved in cell/cell-cell adhesion, ion transport, synapse organization and neuronal survival in aged mutant mice. 
 
-![breif view of our result](./picture1/picture1_00.png)
+![breif view of our result](./picture1/picture1_01.png)
 
 ## Acknowledgments
 We are grateful to everyone who has contributed to this project in various ways. Thank you!
