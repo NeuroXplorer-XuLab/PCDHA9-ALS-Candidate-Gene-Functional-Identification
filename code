@@ -1,1 +1,106 @@
 
+library(ggplot2)
+#install.packages("ggpubr")
+library(ggpubr)
+library(stringr)
+data <- readxl::read_excel('/home/user/Documents/zj.xlsx')
+data$ID <- str_split(data$Term,'~',simplify = T)[,1]
+data$Description <- str_split(data$Term,'~',simplify = T)[,2]
+data$List_Total <- data$`List Total`
+existing_table <- data %>%
+  dplyr::rename(ID = "ID",
+                Description = "Description",
+                GeneRatio = "%",
+                BgRatio = "List_Total",
+                pvalue = "PValue",
+                p.adjust = "Benjamini",
+                qvalue = "FDR",
+                Count = "Count",
+                geneID = "Genes",
+                GO_Class='cata') %>% 
+  dplyr::select(ID, Description, GeneRatio, BgRatio, pvalue, p.adjust, qvalue, Count, geneID,GO_Class)
+
+top.mar=0.2
+right.mar=0.2
+bottom.mar=0.2
+left.mar=0.2
+
+mytheme1<-theme_classic()+
+  theme(text=element_text(family = "ArialMT",colour ="gray30",size = 12),
+        axis.line = element_blank(),
+        axis.ticks = element_line(size = 0.6,colour = "gray30"),
+        axis.ticks.length = unit(1.5,units = "mm"),
+        plot.margin=unit(x=c(top.mar,right.mar,bottom.mar,left.mar),
+                         units="inches"))
+p2 <- ggbarplot(existing_table, x = "Description", y = "Count",
+                fill = "GO_Class",
+                color = "white",
+                width = 0.9,
+                palette = "jco",
+                sort.val = "desc",
+                sort.by.groups = TRUE,
+                xlab = "",
+                ylab = "Number",
+                x.text.angle = 60,
+                orientation = "horiz",
+                ggtheme = mytheme1,
+                y.text.col = TRUE)
+p2
+ggpar(p2,legend.title = "")
+###
+p5 <- ggbarplot(existing_table, x = "Description", y = "Count",
+                 color = "GO_Class",
+                 dot.size=6,
+                 palette = mycolor,
+                 add = "segments",
+                 sorting = "descending",
+                 group ="GO_Class",
+                 label = "number_of_out",
+                 font.label = list(color = "white",face = "bold",
+                                   size = 8,
+                                   vjust = 0.5),
+                 xlab = "",
+                 ylab = "Number",
+                 x.text.col=TRUE,
+                 add.params = list(color = "GO_Class", size = 1),
+                 ggtheme = mytheme1)
+p5
+
+##
+library(dplyr)
+
+ordered_categories <- c("Transport and Trafficking", "Cell Adhesion and Interaction", "Cellular Regulation",
+                        "Metabolism and Detoxification", "Neuronal Function", "Autophagy and Phagocytosis","Immune System")
+
+sorted_go <- existing_table %>%
+  mutate(GO_Class = factor(GO_Class, levels = ordered_categories)) %>%
+  arrange(desc(GO_Class), (Count))
+
+# print(sorted_go)
+my_colors <- c(`Transport and Trafficking` = "#ff1620",
+               `Cell Adhesion and Interaction` = "#e6c619",
+               `Cellular Regulation` = "#6bc72b",
+               `Metabolism and Detoxification` = "#00a99e",
+               `Neuronal Function` = "#0077c1",
+               `Autophagy and Phagocytosis` = "#c87fe2",
+               `Immune System` = "#6c6c6c")
+p2 <- ggbarplot(sorted_go, x = "Description", y = "Count",
+                fill = "GO_Class",
+                color = "white",
+                width = 0.9,
+                palette = my_colors,
+                xlab = "",
+                ylab = "Counts",
+                x.text.angle = 0,
+                orientation = "horiz",
+                ggtheme = mytheme1,
+                order = sorted_go$Description
+)
+p2
+sorted_go$color <- sorted_go$GO_Class
+sorted_go$color <- my_colors[match(sorted_go$color, names(my_colors))]
+p3 <- p2+theme(axis.text.y = element_text(color = sorted_go$color)) # change color of y-axis text to the first custom color
+p4 <- p3+theme(axis.text.x = element_text(size = 7),axis.text.y = element_text(size = 11))
+
+p4
+
