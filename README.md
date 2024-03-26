@@ -4,6 +4,7 @@ Here is the code of our paper: **Functional identification of protocadherin alph
 
 ![breif view of our paper](./picture1/picture1_00.png)
 
+**Here is our paper：**[**Paper**](https://www.nature.com/articles/s41467-024-46333-5#code-availability)
 
 **If you have any questions, please contact us：**[**Our Lab**](http://english.genetics.cas.cn/people/faculty/index_20424.html?json=http://sourcedb.genetics.cas.cn/yw/people/peop/faculty/200907/t20090721_2130952.json)
 
